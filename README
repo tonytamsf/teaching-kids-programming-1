@@ -1,0 +1,10 @@
+All the programming projects that I'm doing with Cate, my daughter starting at 10 years old
+
+social-drawing: 
+  - A simple canvas to draw
+  - A color palatte on top with 7 colors
+    - she wants neon colo
+  - Move the mouse
+  - Click and move to draw
+  - Bonus
+    - a friend can join and draw on a shared canvas
