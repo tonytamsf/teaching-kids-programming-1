@@ -1,0 +1,48 @@
+<html>
+<canvas id="canvas" width=500 height=350>
+  </canvas>
+
+<script>
+var ctx;
+
+  function init()
+{  
+	var mouseX;
+	var mouseY;
+var canvas = document.getElementById("canvas");
+if (canvas && canvas.getContext)
+{
+ ctx = canvas.getContext("2d");
+canvas.addEventListener("mousemove", onMouseMove, false);
+var radial = ctx.createRadialGradient(370, 60, 0, 370, 60, 70);
+ctx.strokeStyle = 'lime';
+ctx.lineWidth = 10;
+ctx.lineCap = 'round';
+ctx.lineJoin = 'round';
+ctx.beginPath();
+ctx.moveTo(20,20)
+/*
+ctx.lineTo(100,20);
+ctx.lineTo(100,200);
+
+ctx.lineTo(20,20);	
+ctx.stroke();
+
+// draw arc
+ctx.arc(100,20,50,70,150,false);
+ctx.bezierCurveTo(0,125,300,175,150,300);
+ctx.stroke();
+*/
+ctx.closePath();
+
+}
+  }
+  onload = init;
+function onMouseMove(e)
+{
+	mouseX = e.clientX-canvas.offsetLeft;
+	mouseY = e.clientY-canvas.offsetTop;
+	ctx.lineTo(mouseX, mouseY);
+	ctx.stroke();
+}
+</script>
