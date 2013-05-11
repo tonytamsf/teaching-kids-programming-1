@@ -1,48 +1,421 @@
-<html>
-<canvas id="canvas" width=500 height=350>
-  </canvas>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>
+Social Drawing
+</title></head>
+<link rel="stylesheet" type="text/css" href="css/neon.css" />
 
+<style>
+ body {
+    margin: 0 auto 0 auto;
+ }
+
+.palette {
+  font-size: .5em;
+  width: 10;
+  float: left;
+  border: 1px solid black;
+  cursor: pointer ;
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#color-blocks {
+  float: left;
+}
+.palette:hover {
+  background-color: cyan;
+}
+
+
+#palette-label {
+ text-align: center;
+  vertical-align: middle;
+}
+
+ 
+#palette-wrap {
+ padding-bottom:5px;
+}
+ 
+body {
+  font: 1em arial,sans-serif; 
+}
+ 
+input {
+  font-size: .75em;
+  width: 30px;
+  float: left;
+}
+
+.label {
+  font-size: .75em;
+  float: left;
+  vertical-align: middle;
+}
+
+#pensize {
+  placeholder: "Pen Size!"
+}
+ 
+#fadealpha {
+  placeholder: "Alpha (0-1)"
+}
+
+#fade-div  {
+  padding: 1px;
+  float: none;
+  clear: both;
+}
+
+#pensize-div  {
+  padding: 1px;
+  clear: both;
+}
+
+#main {
+    padding: 10px;
+    float: left;
+    margin: 0 auto 0 auto;
+}
+
+#toolbar {
+    float: left;
+    border: 2px solid black;
+    margin: 0 auto 0 auto;
+    border-radius: 10px;
+ -webkit-box-shadow: 0px 0px 4px #ff00ff; /* Saf3-4 */
+ -moz-box-shadow: 0px 0px 4px #ff00ff; /* FF3.5 - 3.6 */
+ box-shadow: 0px 0px 4px #ff0ff; /* Opera 10.5, IE9, FF4+, Chrome 10+ */
+}
+ 
+#color-palette {
+      width: 65px;
+      float: left;
+      padding: 2px;
+      margin: 2px;
+}
+
+.color-block-class {
+    width: 50px;
+    height: 50px;
+    float: none; 
+    border: 1px solid black;
+    position:relative;
+    left: 0px;
+    top: 0px;
+}
+
+.color-block-class:hover {
+   border: 1px dashed black;
+}
+ 
+#credit {
+    font:8px arial,sans-serif;
+    margin: 2px;
+    clear: both;
+}
+  
+#drawing-div {
+    padding: 5px;
+    float: left;
+    margin: 0 auto 0 auto;
+}
+
+
+ 
+#canvas {
+ float: right;
+ border: 2px solid black;
+ border-radius: 10px;
+ -webkit-box-shadow: 0px 0px 4px #ff00ff; /* Saf3-4 */
+ -moz-box-shadow: 0px 0px 4px #ff00ff; /* FF3.5 - 3.6 */
+ box-shadow: 0px 0px 4px #ff0ff; /* Opera 10.5, IE9, FF4+, Chrome 10+ */
+}
+
+ 
+</style>
+</head>
+<body>
+  <div id="main">
+  <div id="toolbar"
+      <div id="color-palette">
+      <div  lass="label">
+         <span id='palette-label'>neon</span>
+      </div>
+      
+    <div id="palette-wrap">
+      <div class="palette" id="neon">Ne</div>
+      <div class="palette" id="winter">Wi</div>
+      <div class="palette" id="spring">Sp</div>
+      <div class="palette" id="summer" >Su</div>
+      <div class="palette" id="fall">Fa</div>
+    </div>
+
+    <div id="color-blocks">
+      <div id="color1" class="color-block-class">
+      </div>
+      <div id="color2" class="color-block-class">
+      </div>
+      <div id="color3" class="color-block-class">
+      </div>
+      <div id="color4" class="color-block-class">
+      </div>
+      <div id="color5" class="color-block-class">
+      </div>
+      <div id="color6" class="color-block-class">
+      </div>
+      <div id="color7" class="color-block-class">
+      </div>
+      <div id="color-eraser" class="color-block-class">
+      </div>
+    </div>
+    
+      <div id="pensize-div" class="input">
+        <form onSubmit='return false;'>
+﻿  <span class='label' id='pen'>pen</span>
+        <input value="200" size=4 type="text" id="pensize" />
+          </form>
+      </div>
+      <div id="fade-div" class="input">
+        <form onSubmit='return false;'>
+﻿  <span class='label' id='fadealpha-lable'>transparent</span>
+          <input value=".25" size=4 type="text" id="fadealpha" />
+          </form>
+      </div>
+
+      <div id="fade-div" class="checkbox">
+        <form onSubmit='return false;'>
+﻿  <span class='label' id='fadealpha-lable'>Auto</span>
+          <input checked="CHECKED" type="checkbox" id="autofade" />
+          </form>
+      </div>
+    <div id="credit">
+      Tony & Cate T.
+    </div>
+    
+    </div>
+     <!-- color-palette -->
+
+</div> 
+<!-- toolbar -->
+<div id="drawing-div">
+  <canvas id="canvas" width="800" height="600">
+</canvas>
+</div>
+</div>
+<!-- main -->
 <script>
 var ctx;
-
-  function init()
-{  
-	var mouseX;
-	var mouseY;
-var canvas = document.getElementById("canvas");
-if (canvas && canvas.getContext)
+var pensize;
+var fadealpha;
+var autofade;
+var penDown = false;
+var neonColor = Array(
+                      '#ECFC00', /* yellow */
+                      '#34D800', /* green */
+                      '#EB3B88', /* pink */
+                      '#9240D5', 
+                      '#F60018',
+                      'cyan'
+                      );
+  
+function init_pallett()
 {
- ctx = canvas.getContext("2d");
-canvas.addEventListener("mousemove", onMouseMove, false);
-var radial = ctx.createRadialGradient(370, 60, 0, 370, 60, 70);
-ctx.strokeStyle = 'lime';
-ctx.lineWidth = 10;
-ctx.lineCap = 'round';
-ctx.lineJoin = 'round';
-ctx.beginPath();
-ctx.moveTo(20,20)
-/*
-ctx.lineTo(100,20);
-ctx.lineTo(100,200);
+}
+function init()
+{  
+    var mouseX;
+    var mouseY;
+    var canvas = document.getElementById("canvas");
 
-ctx.lineTo(20,20);	
-ctx.stroke();
+    var color_palette = document.getElementById("color-palette");
 
-// draw arc
-ctx.arc(100,20,50,70,150,false);
-ctx.bezierCurveTo(0,125,300,175,150,300);
-ctx.stroke();
-*/
-ctx.closePath();
+    // allows us to refer to the pen size later
+    pensize = document.getElementById("pensize");
+    fadealpha = document.getElementById("fadealpha");
+    autofade = document.getElementById("autofade");
+
+   // when we click on a palette, switch to it
+    var palette = document.getElementById("neon");
+    palette.addEventListener("mousedown", util_load_css, false);
+
+    palette = document.getElementById("winter");
+    palette.addEventListener("mousedown", util_load_css, false);
+
+    palette = document.getElementById("fall");
+    palette.addEventListener("mousedown", util_load_css, false);
+
+    palette = document.getElementById("spring");
+    palette.addEventListener("mousedown", util_load_css, false);
+
+    palette = document.getElementById("summer");
+    palette.addEventListener("mousedown", util_load_css, false);
+
+
+    if (canvas && canvas.getContext)
+        {
+            ctx = canvas.getContext("2d");
+            canvas.addEventListener("mousedown", onMouseDown, false);
+           canvas.addEventListener("mousemove", onMouseMove, false);
+            canvas.addEventListener("mouseup", onMouseUp, false);
+            /* TODO even listening for the color palette */
+
+            var colorPicker = document.getElementById('color1');
+            colorPicker.addEventListener("mousedown", pickColorMouseDown, false);
+
+            colorPicker = document.getElementById('color2');
+            colorPicker.addEventListener("mousedown", pickColorMouseDown, false);
+
+            colorPicker = document.getElementById('color3');
+            colorPicker.addEventListener("mousedown", pickColorMouseDown, false);
+
+            colorPicker = document.getElementById('color4');
+            colorPicker.addEventListener("mousedown", pickColorMouseDown, false);
+
+            colorPicker = document.getElementById('color5');
+            colorPicker.addEventListener("mousedown", pickColorMouseDown, false);
+
+            colorPicker = document.getElementById('color6');
+            colorPicker.addEventListener("mousedown", pickColorMouseDown, false);
+
+            colorPicker = document.getElementById('color7');
+            colorPicker.addEventListener("mousedown", pickColorMouseDown, false);
+
+            colorPicker = document.getElementById('color-eraser');
+            colorPicker.addEventListener("mousedown", pickColorMouseDown, false);
+
+            var radial = ctx.createRadialGradient(370, 60, 0, 370, 60, 70);
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 0.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+        }
+   initBackground();
 
 }
+
+function  initBackground(){
+  var fred = new Image();
+  fred.addEventListener('load',fredLoaded,false);
+  fred.src = 'images/fred.png';
+
+  function fredLoaded() {
+    ctx.drawImage(fred,250,150);
+    setTimeout('fade()', 2000);
+    setTimeout('fadeFred(.1)', 200);
   }
-  onload = init;
+}
+
+function fadeFred(opacity) {
+  ctx.fillStyle = 'white';
+  ctx.globalAlpha = opacity;
+  opacity += .05; 
+  ctx.fillRect(10, 10, 780, 780);
+
+  if (opacity < 1) {
+    setTimeout('fadeFred(' + opacity + ')', 200);
+  }
+}
+
+function fade()
+{
+  if (autofade.checked == true) {
+    ctx.fillStyle = 'white';
+     ctx.fillRect(10, 10, 780, 780);
+    ctx.stroke();
+  } 
+  setTimeout('fade()', 2000);
+}
+
+var currentStrokeStyle = 'black';
+function pickColorMouseDown(e)
+{
+   if (window.getComputedStyle)
+   {
+       currentStrokeStyle = window.getComputedStyle(this,null).getPropertyValue('background-color');
+       if (this.id == 'color-eraser')
+       {
+             ctx.lineWidth = pensize.value;
+       } else {
+             ctx.lineWidth = pensize.value;
+      }
+   } 
+   util_refresh_state();
+}
+
+     function randomRgb() {
+            // create the rgb string
+            var col =  "rgb("
+            + randomColor(255) + ","
+            + randomColor(255) + ","
+            + randomColor(255) + ")";
+           return col;
+       }
+
+
+        function randomColor(num) {          
+            return Math.floor(Math.random() * num);
+        }     
+
+
+onload = init;
+var mouseDownX;
+var mouseDownY;
 function onMouseMove(e)
 {
-	mouseX = e.clientX-canvas.offsetLeft;
-	mouseY = e.clientY-canvas.offsetTop;
-	ctx.lineTo(mouseX, mouseY);
-	ctx.stroke();
+   if (penDown) {
+        mouseX = e.clientX-canvas.offsetLeft;
+        mouseY = e.clientY-canvas.offsetTop;
+        draw(mouseDownX, mouseDownY, mouseX, mouseY);
+        mouseDownX = mouseX;
+        mouseDownY = mouseY;
+
+    }
 }
+
+function draw(x, y, x1, y1)
+{
+        ctx.lineWidth = pensize.value;
+        ctx.globalAlpha = fadealpha.value;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = currentStrokeStyle;
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+        ctx.closePath();
+
+
+}
+function onMouseUp(e)
+{
+    if (penDown)
+    {
+        mouseX = e.clientX-canvas.offsetLeft;
+        mouseY = e.clientY-canvas.offsetTop;
+        draw(mouseDownX, mouseDownY, mouseX, mouseY);
+    }
+    penDown = false;
+
+    //Canvas2Image.saveAsPNG(canvas);  // will prompt the user to save the image as PNG.  
+}
+
+function onMouseDown(e)
+{
+    penDown = true;
+    mouseDownX = e.clientX-canvas.offsetLeft;
+    mouseDownY = e.clientY-canvas.offsetTop;
+}
+
 </script>
+<script src="social-drawing.js"></script>
+<script src="canvas2image.js"></script>
+</body></html>
