@@ -1,6 +1,8 @@
 All the programming projects that I'm doing with Cate starting at 10 years old
 
-Names
+## social-drawing (tentative)
+
+##What do name the social drawing app
 ------
 Sketchy      +1 +1
 Neopad       0  +1
@@ -14,8 +16,9 @@ SketchPad
 Drawing-a-Day
 DrawMee
 
-social-drawing: 
----------------
+### Demo https://teaching-kids-programming.googlecode.com/git/social-drawing/drawing.html
+
+### TODO
   - DONE Bug: eraser erases border
   - Bug: hitting return on pen size resets the drawing
   - Be able to save a drawing and load it back
