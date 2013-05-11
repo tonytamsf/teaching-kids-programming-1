@@ -1,0 +1,51 @@
+
+#color1 {
+    background-color: black;
+    position:relative;
+    left: 0px;
+    top: 0px;
+    display:block;
+}
+
+#color2 {
+    background-color: #7D7D7D;
+    position:relative;
+    display:block;
+}
+
+#color3 {
+    background-color: #9B9B9B;
+    position:relative;
+    display:block;
+}
+
+#color4 {
+    background-color: #E5E5E5;
+    position:relative;
+    display:block;
+}
+
+#color5 {
+    background-color: #C4FAFF; width: 50px; height: 50px;
+    position:relative; 
+    display:block;
+    }
+
+
+#color6 {
+    background-color: #FFFFFF;
+    position:relative;
+    display: none;
+}
+
+#color7 {
+    background-color: black;
+    position:relative;
+    display: none;
+}
+
+#color-eraser {
+    background-color: white;
+    position:relative;
+    display:block;
+}
