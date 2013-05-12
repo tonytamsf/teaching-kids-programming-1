@@ -16,7 +16,7 @@ All the programming projects that I'm doing with Cate starting at 10 years old
    * Drawing-a-Day
    * DrawMee
 
-### Demo https://teaching-kids-programming.googlecode.com/git/social-drawing/drawing.html
+### Demo http://tonytamsf.github.io/tonytam.github.io/teaching-kids-programming/quill/drawing.html
 
 ### TODO
    - DONE Bug: eraser erases border
