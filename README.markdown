@@ -19,7 +19,7 @@ All the programming projects that I'm doing with Cate starting at 10 years old
 ### Demo http://tonytamsf.github.io/tonytam.github.io/teaching-kids-programming/quill/drawing.html
 
 ### TODO
-   - DONE Bug: eraser erases border
+   - 2 or more people can draw at the same time
    - Bug: hitting return on pen size resets the drawing
    - Be able to save a drawing and load it back
    - Add more palettes
@@ -27,6 +27,7 @@ All the programming projects that I'm doing with Cate starting at 10 years old
       - http://kuler.adobe.com/#themes/rating?time=30
    - Share the drawing to a friend, and that friend can see the list of drawings shared with him/her
 
+   - DONE Bug: eraser erases border
    - DONE Switch to 5 different colr pallattes.
       - Neon
      - summer
